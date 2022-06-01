@@ -1,5 +1,7 @@
 ## Regular permissions
 
+[guide used]("https://www.youtube.com/watch?v=wlYaUvfXJDc")
+
 [permissions]("https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Authentication#challenge_yourself")
 
 
