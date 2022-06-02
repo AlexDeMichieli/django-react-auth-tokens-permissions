@@ -1,8 +1,9 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.decorators import permission_required, login_required
 from .models import Blog
 
+@login_required
 @permission_required('blog_app.add_blog')
 def add_blog(request):
     if request.method == 'GET':
@@ -14,6 +15,7 @@ def add_blog(request):
         Blog.objects.create(title=title, text=text, pub_date=pub_date)
         return redirect('list')
 
+@login_required
 @permission_required('blog_app.view_blog')
 def blog_list(request):
     blog_posts = Blog.objects.all()   
