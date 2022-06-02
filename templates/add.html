@@ -1,0 +1,38 @@
+{%extends 'base.html'%} {%block content%}
+<div class="container mt-4">
+  <form action="" method="POST">
+    {% csrf_token%}
+    <div class="mb-3">
+      <label for="exampleFormControlInput1" class="form-label"
+        >Title</label
+      >
+      <input
+        type="text"
+        class="form-control"
+        id="exampleFormControlInput1"
+        name = 'title'
+      />
+    </div>
+    <div class="mb-3">
+      <label for="exampleFormControlTextarea1" class="form-label"
+        >Text</label
+      >
+      <textarea
+        class="form-control"
+        id="exampleFormControlTextarea1"
+        rows="3"
+        name = 'text'
+      ></textarea>
+    </div>
+    <div class="mb-3">
+    <input type="date" id="start" name="pub_date"
+     
+       min="2000-01-01" max="2024-12-31">
+      </div>
+    <button type="submit" class="btn btn-primary mb-3">Create Post</button>
+  </form>
+</div>
+
+<br />
+
+{%endblock%}

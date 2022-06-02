@@ -30,6 +30,16 @@ def user_login(request):
         if user is not None:
             login(request,user)
             print(user.get_all_permissions()) #returns list of all permissions
-            return redirect('login')
+            return redirect('general')
+            """
+            perms for superuser
+
+            'sessions.view_session', 'contenttypes.add_contenttype', 'auth.delete_user', 'auth.view_user', 'admin.delete_logentry', 'sessions.add_session', 'blog_app.view_blog', 'blog_app.change_blog', 'auth.change_user', 'contenttypes.view_contenttype', 'auth.delete_permission', 'sessions.change_session', 'admin.view_logentry', 'auth.add_permission', 'auth.delete_group', 'auth.view_group', 'contenttypes.delete_contenttype', 'blog_app.add_blog', 'auth.add_user', 'admin.add_logentry', 'auth.change_group', 'sessions.delete_session', 'blog_app.delete_blog', 'auth.view_permission', 'contenttypes.change_contenttype', 'auth.add_group', 'auth.change_permission', 'admin.change_logentry'
+            """
      
     return render(request, 'register/login.html')
+
+
+def user_logout(request):
+    logout(request)
+    return redirect('general')

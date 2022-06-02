@@ -1,0 +1,14 @@
+{%extends 'base.html'%} {%block content%}
+
+<div class="container">
+  <h1 class="mt-3">This is the main page</h1>
+  {%if permissions%}
+  <h4>List of permissions</h4>
+  {%for perm in permissions%}
+  <p>{{perm}}</p>
+  {%endfor%}
+  {%else%}
+  <p>You have no permissions</p>
+  {%endif%}
+</div>
+{%endblock%}

@@ -4,7 +4,6 @@
 
 [permissions]("https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Authentication#challenge_yourself")
 
-
 <hr>
 
 ## Account creation with Django-rest
@@ -18,13 +17,14 @@
 
 [geek_for_geek]("https://www.geeksforgeeks.org/adding-permission-in-api-django-rest-framework/")
 
+## Project specifications - branch 1
 
-## The project should:
+- There are 3 users:
+    - Alex - superuser
+    - Staff 
+    - User
 
-- Have permissions
-- Have account creation for non superuser members
-- simple CRUD operations
-- One model
+- User can create a blog post, but cannot view them.
 
 ## Django rest framework implementation:
 
@@ -39,3 +39,6 @@
  - reresh tokens implementation
  - Should conditionally render pages on permissions
  - Should conditionally allow CRUD operations on permissions
+
+
+

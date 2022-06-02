@@ -17,7 +17,7 @@
 
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <a class="navbar-brand" href="">Blog</a>
+      <a class="navbar-brand" href="{%url 'general'%}">Blog</a>
       <button
         class="navbar-toggler"
         type="button"
@@ -32,17 +32,21 @@
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href=""
-              >Add Reporter<span class="sr-only">(current)</span></a
-            >
+          <li class="nav-item">
+            <a class="nav-link" href="{%url 'add'%}">Add Blog Post</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="">Add Article</a>
+            <a class="nav-link" href="{%url 'list'%}">View All</a>
           </li>
+          {%if user.is_authenticated%}
           <li class="nav-item">
-            <a class="nav-link" href="">View All</a>
+            <a class="nav-link" href="{%url 'logout' %}">Logout</a>
           </li>
+          {%else%}
+          <li class="nav-item">
+            <a class="nav-link" href="{%url 'login' %}">Login</a>
+          </li>
+          {%endif%}
         </ul>
         <form action="" method="POST" class="form-inline my-2 my-lg-0">
           {% csrf_token%}
