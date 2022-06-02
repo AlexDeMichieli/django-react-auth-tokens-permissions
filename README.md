@@ -24,7 +24,7 @@
     - Staff 
     - User
 
-- User can create a blog post, but cannot view them.
+- User can not create a blog post, but can view them all
 
 ## Django rest framework implementation:
 

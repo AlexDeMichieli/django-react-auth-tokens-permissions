@@ -6,7 +6,9 @@ urlpatterns = [
     path('list/', views.blog_list, name='list'),
     path('general/', views.general, name='general'),
 
-    path('api/blogs/', views.blog_posts),
+    path('api/viewall/', views.view_all_blog_posts),
+    path('api/create/', views.create_post),
+
 
 
 ]
