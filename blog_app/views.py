@@ -1,4 +1,3 @@
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import permission_required, login_required
 from .models import Blog
@@ -6,7 +5,7 @@ from .models import Blog
 
 #--> Rest
 from rest_framework.permissions import IsAuthenticated
-from .custom_permissions import CanCreate
+from .custom_permissions import CanCreate, CanView
 
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework import serializers, status
@@ -15,8 +14,8 @@ from rest_framework.response import Response
 
 #-->
 
-@api_view(['POST']) #user can not create
-@permission_classes([IsAuthenticated,CanCreate])
+@api_view(['POST']) #user can not create because doesn't have "blog_app.add_blog"
+@permission_classes([IsAuthenticated, CanCreate])
 def create_post(request, format=None):
     serializer = BlogSerializer(data=request.data)
     if serializer.is_valid():
@@ -26,8 +25,8 @@ def create_post(request, format=None):
 
 
 #https://www.sankalpjonna.com/learn-django/api-permissions-made-easy-using-django-rest-framework
-@api_view(['GET']) #user can view all posts
-@permission_classes([IsAuthenticated])
+@api_view(['GET']) #user can view all posts because it has it has "view_blog" permission
+@permission_classes([IsAuthenticated, CanView])
 def view_all_blog_posts(request, format=None):
     """
     Get a list of blogs posts.
@@ -37,7 +36,7 @@ def view_all_blog_posts(request, format=None):
     return Response(serializer.data)
 
 @login_required
-@permission_required('blog_app.add_blog') #user can not render the form and post
+@permission_required('blog_app.add_blog') #user can not render the form and post because it has only "view_blog"
 def add_blog(request):
     if request.method == 'GET':
         return render(request, 'add.html')
