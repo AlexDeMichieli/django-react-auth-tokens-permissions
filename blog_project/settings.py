@@ -40,8 +40,15 @@ INSTALLED_APPS = [
     'blog_app',
     'accounts',
     'rest_framework',
+    'rest_framework.authtoken' 
 
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',  # <-- And here
+    ],
+}
 
 # REST_FRAMEWORK = {
 #     'DEFAULT_PERMISSION_CLASSES': [

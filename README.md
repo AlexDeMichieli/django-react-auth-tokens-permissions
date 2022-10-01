@@ -41,4 +41,25 @@
  - Should conditionally allow CRUD operations on permissions
 
 
+## 9/30/2022
 
+Created token follwing this [article](https://simpleisbetterthancomplex.com/tutorial/2018/11/22/how-to-implement-token-authentication-using-django-rest-framework.html)
+
+Request token
+
+```bash
+curl --location --request POST 'http://127.0.0.1:8000/api-token-auth/' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "username": "xxx",
+    "password": "xxx"
+}'
+```
+
+View blog
+
+```bash
+curl --location --request GET 'http://127.0.0.1:8000/api/viewall/' \
+--header 'Authorization: Token <token>'
+
+```
