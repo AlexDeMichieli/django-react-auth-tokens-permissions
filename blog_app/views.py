@@ -12,7 +12,7 @@ def add_blog(request):
         title = request.POST['title']
         text = request.POST['text']
         pub_date = request.POST['pub_date']
-        Blog.objects.create(title=title, text=text, pub_date=pub_date)
+        Blog.objects.create(title=title, text=text, pub_date=pub_date, user=request.user)
         return redirect('list')
 
 @login_required
