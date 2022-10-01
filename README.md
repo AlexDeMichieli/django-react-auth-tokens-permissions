@@ -63,3 +63,5 @@ curl --location --request GET 'http://127.0.0.1:8000/api/viewall/' \
 --header 'Authorization: Token <token>'
 
 ```
+
+might want to look into [JWT](https://github.com/jazzband/djangorestframework-simplejwt) framework for better logic for token expiration
