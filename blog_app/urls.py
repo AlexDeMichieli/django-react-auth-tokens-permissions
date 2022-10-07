@@ -1,7 +1,10 @@
 from django.urls import path
 from rest_framework.authtoken.views import obtain_auth_token 
 from . import views
-
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 urlpatterns = [
     path('add/', views.add_blog, name='add'),
     path('list/', views.blog_list, name='list'),
@@ -9,8 +12,9 @@ urlpatterns = [
 
     path('api/viewall/', views.view_all_blog_posts),
     path('api/create/', views.create_post),
-    path('api-token-auth/', obtain_auth_token, name='api_token_auth'),  # <-- And here
-
+    path('api-token-auth/', obtain_auth_token, name='api_token_auth'),  # <-- Regular token
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'), # <-- JWT token
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'), # <-- JWT token
 
 
 
