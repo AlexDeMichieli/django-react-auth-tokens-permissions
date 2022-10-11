@@ -5,7 +5,7 @@ from .models import Blog
 
 #--> Rest
 from rest_framework.permissions import IsAuthenticated
-from .custom_permissions import CanCreate, CanView
+from .custom_permissions import CanCreate, CanView, CanEdit, CanDelete
 
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework import serializers, status
@@ -14,7 +14,7 @@ from rest_framework.response import Response
 
 #-->
 
-@api_view(['POST']) #user can not create because doesn't have "blog_app.add_blog"
+@api_view(['POST']) # Anyone who has the "blog_app.add_blog" permission can create a blog post
 @permission_classes([IsAuthenticated, CanCreate])
 def create_post(request, format=None):
     serializer = BlogSerializer(data=request.data)
@@ -24,9 +24,22 @@ def create_post(request, format=None):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-#https://www.sankalpjonna.com/learn-django/api-permissions-made-easy-using-django-rest-framework
+@api_view(['PUT']) #Anyone with blog_app.change_blog permission can edit a blog post
+@permission_classes([IsAuthenticated, CanEdit])
+def edit_blog(request, pk, format=None):
+    """
+    Edit a blog post
+    """
+    blog_post = Blog.objects.get(pk=pk)
+    serializer = BlogSerializer(blog_post, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 @api_view(['GET']) #user can view all posts because it has it has "view_blog" permission
-@permission_classes([IsAuthenticated, CanView])
+# @permission_classes([IsAuthenticated, CanView])
 def view_all_blog_posts(request, format=None):
     """
     Get a list of blogs posts.

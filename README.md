@@ -1,4 +1,16 @@
-## Regular permissions
+## General
+
+This project is built with Docker, React and Django Rest Framework. The idea behind this app is to experiment with custom permissions, APIs and JWT tokens.
+
+## How to get started
+
+- Clone the Repo
+- Start a virtual environment
+- run `pip install -r requirements.txt`
+
+## Resources
+
+[custom permissions](https://www.sankalpjonna.com/learn-django/api-permissions-made-easy-using-django-rest-framework)
 
 [guide used]("https://www.youtube.com/watch?v=wlYaUvfXJDc")
 
@@ -31,8 +43,8 @@
 - Move permissions over to DRF
 - Should have refresh tokens
 - on account creation check:
- - validation for password
- - validation for username - if exists throw error
+- validation for password
+- validation for username - if exists throw error
 
 ## For React:
 
@@ -43,12 +55,12 @@
 
 ## 9/30/2022
 
-Created token follwing this [article](https://simpleisbetterthancomplex.com/tutorial/2018/11/22/how-to-implement-token-authentication-using-django-rest-framework.html)
+[JWT implementation](https://pypi.org/project/djangorestframework-simplejwt/)
 
 Request token
 
 ```bash
-curl --location --request POST 'http://127.0.0.1:8000/api-token-auth/' \
+curl --location --request POST 'http://127.0.0.1:8000/api/token/' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "username": "xxx",
@@ -60,8 +72,5 @@ View blog
 
 ```bash
 curl --location --request GET 'http://127.0.0.1:8000/api/viewall/' \
---header 'Authorization: Token <token>'
-
+--header 'Authorization: Bearer <token>'
 ```
-
-might want to look into [JWT](https://github.com/jazzband/djangorestframework-simplejwt) framework for better logic for token expiration

@@ -42,14 +42,12 @@ INSTALLED_APPS = [
     'blog_app',
     'accounts',
     'rest_framework',
-    'rest_framework.authtoken',
     'rest_framework_simplejwt',
 
 ]
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',  # <-- And here
         'rest_framework_simplejwt.authentication.JWTAuthentication',
 
     ],
