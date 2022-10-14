@@ -13,6 +13,7 @@ urlpatterns = [
     path('api/viewall/', views.view_all_blog_posts),
     path('api/create/', views.create_post),
     path('api/edit/<int:pk>', views.edit_blog),
+    path('api/delete/<int:pk>', views.delete_blog),
 
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'), # <-- JWT token
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'), # <-- JWT token

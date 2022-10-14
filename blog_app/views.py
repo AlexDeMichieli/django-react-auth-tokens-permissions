@@ -30,7 +30,11 @@ def edit_blog(request, pk, format=None):
     """
     Edit a blog post
     """
-    blog_post = Blog.objects.get(pk=pk)
+    try:
+        blog_post = Blog.objects.get(pk=pk)
+    except Blog.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
     serializer = BlogSerializer(blog_post, data=request.data)
     if serializer.is_valid():
         serializer.save()
@@ -38,8 +42,23 @@ def edit_blog(request, pk, format=None):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET']) #user can view all posts because it has it has "view_blog" permission
-# @permission_classes([IsAuthenticated, CanView])
+@api_view(['DELETE']) #Anyone with blog_app.delete_blog permission can delete a blog post
+@permission_classes([IsAuthenticated, CanDelete])
+def delete_blog(request, pk, format=None):
+    """
+    Delete a blog post
+    """
+    try:
+        blog_post = Blog.objects.get(pk=pk)
+    except Blog.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    blog_post.delete()
+    return Response(status=status.HTTP_204_NO_CONTENT)
+
+  
+@api_view(['GET']) ##Anyone with blog_app.view_blog permission can view all blog posts
+@permission_classes([IsAuthenticated, CanView])
 def view_all_blog_posts(request, format=None):
     """
     Get a list of blogs posts.
