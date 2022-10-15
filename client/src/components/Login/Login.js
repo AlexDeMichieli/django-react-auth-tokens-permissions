@@ -1,6 +1,6 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
-
+import axios from 'axios';
 
 const Login = () => {
 
@@ -12,17 +12,23 @@ const Login = () => {
     setForm((state) => ({ ...state, [name]: value }));
   };
 
-  const getToken = async (e) => {
+  const getToken = async (e, {user,password}) => {
     e.preventDefault();
-    console.log(form)
     const headerConfig = { headers: { "Content-Type": "application/json" } };
     const data = {
-    
+      "username": user,
+      "password": password
     };
     try {
-      // await axios.post("/api/posts", data, headerConfig).then((res) => {
-      //   console.log(res);
-      // });
+      await axios.post("http://localhost:9000/api/token/", data, headerConfig).then((res) => {
+        console.log(res.data)
+        const token = {
+          access_token: res.data.access,
+          refresh_token: res.data.refresh
+        }
+        localStorage.setItem("token", JSON.stringify(token.access_token));
+        localStorage.setItem("refreshToken", JSON.stringify(token.refresh_token));
+      });
    
     } catch (error) {
       console.log(error);
@@ -31,7 +37,7 @@ const Login = () => {
 
 
   return (
-    <form onSubmit={(e) => getToken(e)} className='mt-4'>
+    <form onSubmit={(e) => getToken(e, form)} className='mt-4'>
       <div className="form-group">
         <label htmlFor="text-field">User Name</label>
         <input name="user" onChange={changeForm} type="text" className="form-control" id="text-field" aria-describedby="text-field" placeholder="Enter your username"/>
