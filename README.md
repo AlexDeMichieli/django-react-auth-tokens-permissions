@@ -5,8 +5,14 @@ This project is built with Docker, React and Django Rest Framework. The idea beh
 ## How to get started
 
 - Clone the Repo
-- Start a virtual environment
+- cd into server
+- Create and start a virtual environment
 - run `pip install -r requirements.txt`
+- run `python manage.py migrate`
+- run `python manage.py createsuperuser`
+
+Cd into client
+- run `npm start` 
 
 ## Resources
 
