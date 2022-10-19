@@ -10,6 +10,7 @@ This project is built with Docker, React and Django Rest Framework. The idea beh
 - run `pip install -r requirements.txt`
 - run `python manage.py migrate`
 - run `python manage.py createsuperuser`
+- python manage.py runserver 9000
 
 Cd into client
 - run `npm start` 
