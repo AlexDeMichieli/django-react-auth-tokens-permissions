@@ -1,0 +1,7 @@
+.jumbotron {
+    background-image: url("../../client/img/gradient.jpg") !important;
+    background-size: cover;
+    }
+.login {
+    color: white;
+}
