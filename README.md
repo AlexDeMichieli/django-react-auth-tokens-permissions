@@ -67,7 +67,7 @@ Cd into client
 Request token
 
 ```bash
-curl --location --request POST 'http://127.0.0.1:8000/api/token/' \
+curl --location --request POST 'http://127.0.0.1:9000/api/token/' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "username": "xxx",
@@ -75,9 +75,19 @@ curl --location --request POST 'http://127.0.0.1:8000/api/token/' \
 }'
 ```
 
+Refresh Token
+
+```bash
+curl --location --request POST 'http://localhost:9000/api/token/refresh/' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "refresh": "xxx"
+}'
+```
+
 View blog
 
 ```bash
-curl --location --request GET 'http://127.0.0.1:8000/api/viewall/' \
+curl --location --request GET 'http://127.0.0.1:9000/api/viewall/' \
 --header 'Authorization: Bearer <token>'
 ```

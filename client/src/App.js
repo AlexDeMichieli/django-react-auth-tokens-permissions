@@ -1,7 +1,6 @@
 import Login from "../src/components/Login/Login"
 import Blog from "../src/components/Blog/Blog"
 import PrivateRoute from "./components/routing/PrivateRoute";
-import Navbar from "./components/NavBar/Navbar";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {

@@ -13,13 +13,8 @@ const isHandlerEnabled = (config = {}) => {
 
 const requestHandler = async (request) => {
   let token = await getJWT()
-  console.log("TOKEN", token)
   let newAccessToken = token.access
-  console.log("Intercepted request", newAccessToken);
-  //TO REVISIT LATER
   if (isHandlerEnabled(request)) {
-    console.log("REQUEST", request);
-    // Modify request here
     request.headers["x-auth-token"] = newAccessToken;
   }
   return request;
@@ -28,10 +23,8 @@ const requestHandler = async (request) => {
 // Enable request interceptor
 client.interceptors.request.use((request) => requestHandler(request));
 
-//   Axios response and error interceptors
 const errorHandler = (error) => {
   if (isHandlerEnabled(error.config)) {
-    // Handle errors
   }
   return Promise.reject({ ...error });
 };
