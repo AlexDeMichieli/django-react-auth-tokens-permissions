@@ -30,20 +30,27 @@ const Blog = () => {
   };
 
   const changeForm = (event, id) => {
-    const { name, value } = event.target;
-    console.log('NAME, VALIUE', name, value);
-    const test =  {[name]: value}
-    setForm((state) => ({ ...state,test }));
 
-    // setForm((state) => ({ ...state, [name]: value }));
+    const { name, value } = event.target;
+    // console.log('NAME, VALIUE', name, value);
+    // const test = {[name]: value}
+    // console.log(test)
+    // setForm(test);
+
+    setForm((state) => ({ ...state, [[id] + " " + name]: value }));
+
   };
 
-  console.log(form)
-
-  const updatePost = (e, { id }) => {
+  const updatePost = (e, id) => {
     e.preventDefault();
-    console.log(id);
-    console.log(form)
+    console.log('ID',id);
+    // console.log('FORM', form)
+
+    const title = form[`${id} title`]
+    const text = form[`${id} text`]
+
+    console.log(title, text)
+    
   };
 
   const displayBlogPosts =
@@ -54,7 +61,7 @@ const Blog = () => {
           <div className="card">
             <div className="card-body">
               <input
-                onChange={(e)=>changeForm(e,id)}
+                onChange={(e)=>changeForm(e,post.id)}
                 name="title"
                 className="form-control form-control-lg mb-4"
                 type="text"
@@ -63,7 +70,7 @@ const Blog = () => {
               />
 
               <textarea
-                onChange={(e)=>changeForm(e,id)}
+                onChange={(e)=>changeForm(e, post.id)}
                 name="text"
                 defaultValue={post.text}
                 className="form-control mb-4"
@@ -74,7 +81,7 @@ const Blog = () => {
 
               <button
                 type="button"
-                onClick={(e) => updatePost(e, post)}
+                onClick={(e) => updatePost(e, post.id)}
                 className="btn btn-success m-2"
               >
                 Edit Post
