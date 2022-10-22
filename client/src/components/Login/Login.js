@@ -9,7 +9,6 @@ const Login = () => {
 
   const changeForm = (event) => {
     const { name, value } = event.target;
-    console.log(name, value);
     setForm((state) => ({ ...state, [name]: value }));
   };
 
