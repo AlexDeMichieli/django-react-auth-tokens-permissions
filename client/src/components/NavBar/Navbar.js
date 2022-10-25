@@ -26,9 +26,6 @@ const Navbar = () => {
           <i className="fas fa-code"></i> DevConnector
         </Link>
       </h1>
-      {/* {!loading && (
-        <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
-      )} */}
     </nav>
   );
 };

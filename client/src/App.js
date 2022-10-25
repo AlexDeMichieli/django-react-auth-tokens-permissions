@@ -8,9 +8,9 @@ function App() {
     <div className="App container">
       <BrowserRouter>
         <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route exact path='/blog' element={<PrivateRoute/>}>
-            <Route exact path='/blog' element={<Blog/>}/>
+          <Route exact path="/" element={<Login />} />
+          <Route path='/blog' element={<PrivateRoute/>}>
+            <Route path='/blog' element={<Blog/>}/>
           </Route>
         </Routes>
       </BrowserRouter>

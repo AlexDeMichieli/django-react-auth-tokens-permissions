@@ -6,7 +6,7 @@ const PrivateRoute = () => {
   const isAuthenticated = localStorage.getItem("isAuthenticated")
   console.log('PRIVATE ROUTE')
   if (!isAuthenticated) {
-    return <Navigate to="/login" />
+    return <Navigate to="/" />
   }
   else {
     return <Blog />

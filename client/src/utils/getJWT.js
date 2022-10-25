@@ -23,7 +23,7 @@ const getJWT = async () => {
     }
 
   } else {
-    window.location.assign("/login");
+    window.location.assign("/");
   }
 };
 
