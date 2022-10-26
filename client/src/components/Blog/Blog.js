@@ -2,8 +2,6 @@ import React from "react";
 import PostEntry from "../PostEntry/PostEntry";
 
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-
 import client from "../../utils/client";
 
 const Blog = () => {
@@ -45,71 +43,61 @@ const Blog = () => {
     setEntry((state) => ({ ...state, [name]: value }));
   };
 
-  const createPost = async (e) => {
+  const createPost = (e) => {
     e.preventDefault();
-    console.log(entry)
-    try {
-      const postTitle = entry.title
-      const postText = entry.text
-      const postDate = entry.date
+    const postTitle = entry.title
+    const postText = entry.text
+    const postDate = entry.date
 
-      const token = JSON.parse(localStorage.getItem("token"));
-      const data = JSON.stringify({
-        "title": postTitle,
-        "text": postText,
-        "pub_date": postDate
-      });
-      const config = {
-        method: 'POST',
-        url: `/api/create/`,
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        data: data
-      };
-      const response = await client(config);
-      console.log(response.data)
-      getPosts()
-
-    } catch (error) {
-      console.log(error)
-    }
+    const token = JSON.parse(localStorage.getItem("token"));
+    const data = JSON.stringify({
+      "title": postTitle,
+      "text": postText,
+      "pub_date": postDate
+    });
+    const config = {
+      method: 'POST',
+      url: `/api/create/`,
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      data: data
+    };
+    client(config)
+      .then(res => getPosts())
+      .then(error => console.log(error))
   }
 
-  const updatePost = async (e, { id, title, text, pub_date }) => {
+  const updatePost = (e, { id, title, text, pub_date }) => {
     e.preventDefault();
-
-    try {
-      const postTitle = form[`${id} title`] || title
-      const postText = form[`${id} text`] || text
-      const postDate = form[`${id} date`] || pub_date
-      const token = JSON.parse(localStorage.getItem("token"));
-      const data = JSON.stringify({
-        "title": postTitle,
-        "text": postText,
-        "pub_date": postDate
-      });
-      const config = {
-        method: 'PUT',
-        url: `/api/edit/${id}`,
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        data: data
-      };
-      const response = await client(config);
-      getPosts()
-
-    } catch (error) {
-      console.log(error)
-    }
+    const postTitle = form[`${id} title`] || title
+    const postText = form[`${id} text`] || text
+    const postDate = form[`${id} date`] || pub_date
+    const token = JSON.parse(localStorage.getItem("token"));
+    const data = JSON.stringify({
+      "title": postTitle,
+      "text": postText,
+      "pub_date": postDate
+    });
+    const config = {
+      method: 'PUT',
+      url: `/api/edit/${id}`,
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      data: data
+    };
+    client(config)
+      .then(res => getPosts())
+      .then(error => console.log(error))
   }
+
   console.log(form)
 
   const deletePost = (e, { id }) => {
-  const token = JSON.parse(localStorage.getItem("token"));
+    const token = JSON.parse(localStorage.getItem("token"));
 
     const config = {
       method: "delete",
@@ -119,7 +107,9 @@ const Blog = () => {
       },
     };
 
-    client(config).then((res) => getPosts());
+    client(config)
+      .then((res) => getPosts())
+      .then(error => console.log(error))
 
   }
 
@@ -148,15 +138,13 @@ const Blog = () => {
                 id="exampleFormControlTextarea1"
                 rows="3"
               />
-              <input rows="3" 
-                placeholder={post.pub_date}
-                className="form-control mb-4" 
-                onChange={(e) => changeForm(e, post.id)} 
+              <input rows="3"
+                // placeholder={post.pub_date}
+                className="form-control mb-4"
+                onChange={(e) => changeForm(e, post.id)}
                 name="date" type="date" id="start"
                 value={form[`${id} date`]}
                 min="2018-01-01" max="2050-12-31" />
-
-              <p>{post.id}</p>
 
               <button
                 type="button"
