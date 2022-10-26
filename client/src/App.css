@@ -9,3 +9,7 @@
 .date-input{
     display: block;
 }
+
+.form-entry{
+    margin-left: 15px !important
+}

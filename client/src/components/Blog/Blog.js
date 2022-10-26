@@ -117,7 +117,7 @@ const Blog = () => {
     blogs &&
     blogs.map((post, id) => {
       return (
-        <div key={id} className="col-sm">
+        <div key={id} className="col-sm-4 mt-3">
           <div className="card">
             <div className="card-body">
               <input

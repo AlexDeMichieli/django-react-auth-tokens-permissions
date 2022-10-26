@@ -2,7 +2,7 @@ import React from 'react';
 
 function PostEntry({handleEntry, createPost}) {
     return (
-        <div className="card">
+        <div className="card form-entry">
             <div className="card-body">
                 <input
                     onChange={(e) => handleEntry(e)}
