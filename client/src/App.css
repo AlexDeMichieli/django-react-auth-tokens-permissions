@@ -2,6 +2,10 @@
     background-image: url("../../client/img/gradient.jpg") !important;
     background-size: cover;
     }
-.login {
+.login, .form-label {
     color: white;
+}
+
+.date-input{
+    display: block;
 }

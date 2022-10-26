@@ -1,11 +1,19 @@
 import React from "react";
+import PostEntry from "../PostEntry/PostEntry";
+
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import client from "../../utils/client";
 
 const Blog = () => {
+  let navigate = useNavigate();
+
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [form, setForm] = useState([]);
+  const [entry, setEntry] = useState([])
+
 
   useEffect(() => {
     getPosts();
@@ -22,7 +30,6 @@ const Blog = () => {
         },
       };
       const response = await client(config);
-      console.log(response.data);
       setBlogs(response.data);
     } catch (error) {
       console.log(error);
@@ -34,6 +41,42 @@ const Blog = () => {
     setForm((state) => ({ ...state, [[id] + " " + name]: value }));
 
   };
+  const handleEntry = (event) => {
+    const { name, value } = event.target;
+    setEntry((state) => ({ ...state, [name]: value }));
+  };
+
+  const createPost = async (e) => {
+    e.preventDefault();
+    console.log(entry)
+    try {
+      const postTitle = entry.title
+      const postText = entry.text
+      const postDate = entry.date
+
+      const token = JSON.parse(localStorage.getItem("token"));
+      const data = JSON.stringify({
+        "title": postTitle,
+        "text": postText,
+        "pub_date": postDate
+      });
+      const config = {
+        method: 'POST',
+        url: `/api/create/`,
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        data: data
+      };
+      const response = await client(config);
+      console.log(response.data)
+      getPosts()
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   const updatePost = async (e, { id, title, text, pub_date }) => {
     e.preventDefault();
@@ -42,7 +85,6 @@ const Blog = () => {
       const postTitle = form[`${id} title`] || title
       const postText = form[`${id} text`] || text
       const postDate = form[`${id} date`] || pub_date
-      console.log('DATE',pub_date)
       const token = JSON.parse(localStorage.getItem("token"));
       const data = JSON.stringify({
         "title": postTitle,
@@ -66,9 +108,16 @@ const Blog = () => {
     }
   }
 
-  const deletePost = async (e, { id, title, text }) => {
-    e.preventDefault();
+  const deletePost = async (e, { id }) => {
+    
+    // const currentList = [...blogs]
+    // console.log("POST ID", id)
+    // const currentPost = currentList.find(item=>item.id == id )
+    // const postIndex = currentList.indexOf(currentPost)
+
     try {
+      // currentList.splice(postIndex, 1)
+      // setBlogs(currentList)
       const token = JSON.parse(localStorage.getItem("token"));
       const config = {
         method: 'DELETE',
@@ -78,14 +127,29 @@ const Blog = () => {
           'Content-Type': 'application/json'
         }
       };
-      const response = await client(config);
-      getPosts()
+
+    setTimeout(function () {
+      client(config).then(function (response) {
+        getPosts()
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    }, 500);
+    
+      // const response = await client(config);
+      // const refresh = await getPosts()
+      // currentList.splice(postIndex, 1);
+      // setBlogs(currentList)
+      // console.log("BLOGS",blogs)
+      // getPosts()
+     
     } catch (error) {
       console.log(error)
     }
+
   }
 
-console.log(form)
   const displayBlogPosts =
     blogs &&
     blogs.map((post, id) => {
@@ -98,7 +162,7 @@ console.log(form)
                 name="title"
                 className="form-control form-control-lg mb-4"
                 type="text"
-                placeholder=".form-control-lg"
+                placeholder="enter the title"
                 defaultValue={post.title}
               />
 
@@ -110,15 +174,16 @@ console.log(form)
                 id="exampleFormControlTextarea1"
                 rows="3"
               />
-              <input onChange={(e) => changeForm(e, post.id)} name="date" type="date" id="start"
+              <input  rows="3" className="form-control mb-4" onChange={(e) => changeForm(e, post.id)} name="date" type="date" id="start"
                 defaultValue={post.pub_date}
                 min="2018-01-01" max="2050-12-31" />
+              
+              <p>{post.id}</p>
 
-
-              <button
+              <button            
                 type="button"
                 onClick={(e) => updatePost(e, post)}
-                className="btn btn-success m-2"
+                className="btn btn-success m-2 "
               >
                 Edit Post
               </button>
@@ -132,10 +197,16 @@ console.log(form)
       );
     });
 
+
+
   return (
     <div className="container">
-      <h1 className="mb-4">Blog Posts</h1>
+      <h1 className="mb-4 text-center">Blog Posts</h1>
+      <div className="d-flex justify-content-between">
       <div className="row">{displayBlogPosts}</div>
+      <PostEntry entry={entry} createPost={createPost} handleEntry={handleEntry} />
+      </div>
+     
     </div>
   );
 };

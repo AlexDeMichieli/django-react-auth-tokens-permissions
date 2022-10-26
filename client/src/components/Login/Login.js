@@ -40,19 +40,19 @@ const Login = () => {
 
   return (
     <div>
-      <div className=" jumbotron jumbotron-fluid">
+      <div className="jumbotron jumbotron-fluid">
         <div className="container">
           <h1 className="display-4 mt-4 login">Login</h1>
           <form onSubmit={(e) => getToken(e, form)} className='mt-4'>
             <div className="form-group">
-              <label htmlFor="text-field">User Name</label>
+              <label className='form-label' htmlFor="text-field">User Name</label>
               <input name="user" onChange={changeForm} type="text" className="form-control" id="text-field" aria-describedby="text-field" placeholder="Enter your username" />
             </div>
             <div className="form-group">
-              <label htmlFor="password">Password</label>
+              <label className='form-label mt-3' htmlFor="password">Password</label>
               <input name="password" onChange={changeForm} type="password" className="form-control" id="password" placeholder="Password" />
             </div>
-            <button type="submit" className="btn btn-primary mt-3 mb-4">Login</button>
+            <button type="submit" className="btn btn-primary mt-4 mb-4">Login</button>
           </form>
         </div>
       </div>
