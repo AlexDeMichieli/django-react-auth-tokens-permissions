@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 import client from "../../utils/client";
 
 const Blog = () => {
-  let navigate = useNavigate();
 
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -19,22 +18,22 @@ const Blog = () => {
     getPosts();
   }, []);
 
-  const getPosts = async () => {
-    try {
-      const token = JSON.parse(localStorage.getItem("token"));
-      const config = {
-        method: "get",
-        url: "api/viewall/",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
-      const response = await client(config);
-      setBlogs(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const getPosts = () => {
+    const token = JSON.parse(localStorage.getItem("token"));
+
+    const config = {
+      method: "get",
+      url: "api/viewall/",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    client(config)
+      .then((res) => {
+        setBlogs(res.data);
+      })
+      .catch(console.error);
+  }
 
   const changeForm = (event, id) => {
     const { name, value } = event.target;
@@ -107,46 +106,20 @@ const Blog = () => {
       console.log(error)
     }
   }
+  console.log(form)
 
-  const deletePost = async (e, { id }) => {
-    
-    // const currentList = [...blogs]
-    // console.log("POST ID", id)
-    // const currentPost = currentList.find(item=>item.id == id )
-    // const postIndex = currentList.indexOf(currentPost)
+  const deletePost = (e, { id }) => {
+  const token = JSON.parse(localStorage.getItem("token"));
 
-    try {
-      // currentList.splice(postIndex, 1)
-      // setBlogs(currentList)
-      const token = JSON.parse(localStorage.getItem("token"));
-      const config = {
-        method: 'DELETE',
-        url: `/api/delete/${id}`,
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
-      };
+    const config = {
+      method: "delete",
+      url: `/api/delete/${id}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
 
-    setTimeout(function () {
-      client(config).then(function (response) {
-        getPosts()
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-    }, 500);
-    
-      // const response = await client(config);
-      // const refresh = await getPosts()
-      // currentList.splice(postIndex, 1);
-      // setBlogs(currentList)
-      // console.log("BLOGS",blogs)
-      // getPosts()
-     
-    } catch (error) {
-      console.log(error)
-    }
+    client(config).then((res) => getPosts());
 
   }
 
@@ -162,25 +135,30 @@ const Blog = () => {
                 name="title"
                 className="form-control form-control-lg mb-4"
                 type="text"
-                placeholder="enter the title"
-                defaultValue={post.title}
+                placeholder={post.title}
+                value={form[`${id} title`]}
               />
 
               <textarea
                 onChange={(e) => changeForm(e, post.id)}
                 name="text"
-                defaultValue={post.text}
+                placeholder={post.text}
+                value={form[`${id} text`]}
                 className="form-control mb-4"
                 id="exampleFormControlTextarea1"
                 rows="3"
               />
-              <input  rows="3" className="form-control mb-4" onChange={(e) => changeForm(e, post.id)} name="date" type="date" id="start"
-                defaultValue={post.pub_date}
+              <input rows="3" 
+                placeholder={post.pub_date}
+                className="form-control mb-4" 
+                onChange={(e) => changeForm(e, post.id)} 
+                name="date" type="date" id="start"
+                value={form[`${id} date`]}
                 min="2018-01-01" max="2050-12-31" />
-              
+
               <p>{post.id}</p>
 
-              <button            
+              <button
                 type="button"
                 onClick={(e) => updatePost(e, post)}
                 className="btn btn-success m-2 "
@@ -203,12 +181,169 @@ const Blog = () => {
     <div className="container">
       <h1 className="mb-4 text-center">Blog Posts</h1>
       <div className="d-flex justify-content-between">
-      <div className="row">{displayBlogPosts}</div>
-      <PostEntry entry={entry} createPost={createPost} handleEntry={handleEntry} />
+        <div className="row">{displayBlogPosts}</div>
+        <PostEntry entry={entry} createPost={createPost} handleEntry={handleEntry} />
       </div>
-     
+
     </div>
   );
+
+  // const [name, setName] = useState("");
+  // const [genre, setGenre] = useState("");
+  // const [starring, setStarring] = useState("");
+  // const [movieId, setMovieId] = useState(null);
+  // const [movies, setMovies] = useState([]);
+
+  // useEffect(() => {
+  //   refreshMovies();
+  // }, []);
+
+  // const refreshMovies = () => {
+  //   const token = JSON.parse(localStorage.getItem("token"));
+
+  //     const config = {
+  //       method: "get",
+  //       url: "api/viewall/",
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     };
+  //     client(config)
+  //     .then((res) => {
+  //       setMovies(res.data);
+  //     })
+  //     .catch(console.error);
+  //   }
+
+  // const onSubmit = (e) => {
+  //   // e.preventDefault();
+  //   // let item = { name, genre, starring };
+  //   // API.post("/", item).then(() => refreshMovies());
+  // };
+
+  // const onUpdate = (id) => {
+  //   // let item = { name };
+  //   // API.patch(`/${id}/`, item).then((res) => refreshMovies());
+  // };
+
+  // const onDelete = (id) => {
+  //   const token = JSON.parse(localStorage.getItem("token"));
+
+  //   const config = {
+  //     method: "delete",
+  //     url: `/api/delete/${id}`,
+  //     headers: {
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //   };
+
+  //   client(config).then((res) => refreshMovies());
+  // };
+
+  // function selectMovie(id) {
+  //   // let item = movies.filter((movie) => movie.id === id)[0];
+  //   // setName(item.name);
+  //   // setGenre(item.genre);
+  //   // setStarring(item.starring);
+  //   // setMovieId(item.id);
+  // }
+
+  // return (
+  //   <div className="container mt-5">
+  //     <div className="row">
+  //       <div className="col-md-4">
+  //         <h3 className="float-left">Create a new Movie</h3>
+  //         <form onSubmit={onSubmit} className="mt-4">
+  //           <form className="mb-3" controlId="formBasicName">
+  //             <label>{movieId}Name</label>
+  //             <input
+  //               type="text"
+  //               placeholder="Enter Name"
+  //               value={name}
+  //               onChange={(e) => setName(e.target.value)}
+  //             />
+  //           </form>
+
+  //           <form className="mb-3" controlId="formBasicGenre">
+  //             <label>Genre</label>
+  //             <input
+  //               type="text"
+  //               placeholder="Enter Genre"
+  //               value={genre}
+  //               onChange={(e) => setGenre(e.target.value)}
+  //             />
+  //           </form>
+
+  //           <form className="mb-3" controlId="formBasicStarring">
+  //             <label>Starring</label>
+  //             <input
+  //               type="text"
+  //               placeholder="Enter Starring"
+  //               value={starring}
+  //               onChange={(e) => setStarring(e.target.value)}
+  //             />
+  //           </form>
+
+  //           <div className="float-right">
+  //             <button
+  //               variant="primary"
+  //               type="submit"
+  //               onClick={onSubmit}
+  //               className="mx-2"
+  //             >
+  //               Save
+  //             </button>
+  //             <button
+  //               variant="primary"
+  //               type="button"
+  //               onClick={() => onUpdate(movieId)}
+  //               className="mx-2"
+  //             >
+  //               Update
+  //             </button>
+  //           </div>
+  //         </form>
+  //       </div>
+  //       <div className="col-md-8 m">
+  //         <table class="table">
+  //           <thead>
+  //             <tr>
+  //               <th scope="col">#</th>
+  //               <th scope="col">Movie Name</th>
+  //               <th scope="col">Genre</th>
+  //               <th scope="col">Starring</th>
+  //               <th scope="col"></th>
+  //             </tr>
+  //           </thead>
+  //           <tbody>
+  //             {movies.map((blog, index) => {
+  //               return (
+  //                 <tr key="">
+  //                   <th scope="row">{blog.id}</th>
+  //                   <td> {blog.title}</td>
+  //                   <td>{blog.text}</td>
+  //                   <td>{blog.pub_date}</td>
+  //                   <td>
+  //                     <i
+  //                       className="fa fa-pencil-square text-primary d-inline"
+  //                       aria-hidden="true"
+  //                       onClick={() => selectMovie(blog.id)}
+  //                     ></i>
+  //                     <button
+  //                       className="fa fa-trash-o text-danger d-inline mx-3"
+  //                       aria-hidden="true"
+  //                       onClick={() => onDelete(blog.id)}
+  //                     >DELETE</button>
+  //                   </td>
+  //                 </tr>
+  //               );
+  //             })}
+  //           </tbody>
+  //         </table>
+  //       </div>
+  //     </div>
+  //   </div>
+  // );
 };
 
 export default Blog;
