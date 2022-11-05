@@ -91,3 +91,11 @@ View blog
 curl --location --request GET 'http://127.0.0.1:9000/api/viewall/' \
 --header 'Authorization: Bearer <token>'
 ```
+
+
+## Troubleshooting
+
+- You need postgres CLI and client
+- `psql` enters the postgres client
+- `\du` for a list of databases
+- `\password` to reset password

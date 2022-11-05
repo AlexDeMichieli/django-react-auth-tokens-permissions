@@ -1,5 +1,5 @@
 .jumbotron {
-    background-image: url("../../client/img/gradient.jpg") !important;
+    background-image: url("./components/images/gradient.jpg") !important;
     background-size: cover;
     }
 .login, .form-label {
@@ -12,4 +12,8 @@
 
 .form-entry{
     margin-left: 15px !important
+}
+
+.custom-row{
+    width: 90% !important;
 }
