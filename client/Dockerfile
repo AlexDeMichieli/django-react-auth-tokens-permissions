@@ -11,4 +11,4 @@ RUN npm install
 # copies everything inside app 
 COPY . .
 ## Production
-RUN npm run build
+# RUN npm run build
