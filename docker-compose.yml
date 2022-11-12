@@ -1,7 +1,10 @@
+
+
 version: "3.9"
 services:
   db:
     restart: always
+    # image: 300486/postgres
     image: postgres
     environment:
       - POSTGRES_DB=alexdemichieli
@@ -15,10 +18,9 @@ services:
   project:
     restart: always
     container_name: code
+    # image: 300486/backend
     command : bash -c "python manage.py migrate &&
                       python manage.py runserver 0.0.0.0:9000"
-    # env_file:
-    #   - ./project/settings.ini
     build:
       context: ./server/
       dockerfile: Dockerfile
@@ -33,6 +35,7 @@ services:
     restart: always
     command : npm start
     container_name: front
+    # image: 300486/frontend
     build:
       context: ./client/
       dockerfile: Dockerfile
@@ -47,28 +50,3 @@ services:
 networks:
   db-net:
     driver: bridge
-# version: '3.9'
-# services:
-#   backend:
-#     build:
-#       context: ./server/
-#       dockerfile: Dockerfile
-#     command: 'python manage.py runserver 0.0.0.0:9000'
-#     ports:
-#       - 9000:9000
-#     volumes:
-#       - .:/app
-#     depends_on:
-#       - db
-
-#   db:
-#     image: postgres:13.0-alpine
-#     volumes:
-#       - postgres_data:/var/lib/postgresql/data/
-#     environment:
-#       - POSTGRES_USER=hello_django
-#       - POSTGRES_PASSWORD=hello_django
-#       - POSTGRES_DB=hello_django_dev
-
-# volumes:
-#   postgres_data:
