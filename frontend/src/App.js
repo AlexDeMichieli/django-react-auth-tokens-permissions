@@ -1,29 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import './App.css';
-import Posts from './components/Posts';
-import PostLoadingComponent from './components/PostLoading';
+import Login from "../src/components/Login/Login"
+import Blog from "../src/components/Blog/Blog"
+import PrivateRoute from "./components/routing/PrivateRoute";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
-	const PostLoading = PostLoadingComponent(Posts);
-	const [appState, setAppState] = useState({
-		loading: false,
-		posts: null,
-	});
-
-	useEffect(() => {
-		setAppState({ loading: true });
-		const apiUrl = `http://127.0.0.1/api/`;
-		fetch(apiUrl)
-			.then((data) => data.json())
-			.then((posts) => {
-				setAppState({ loading: false, posts: posts });
-			});
-	}, [setAppState]);
-	return (
-		<div className="App">
-			<h1>Latest Posts</h1>
-			<PostLoading isLoading={appState.loading} posts={appState.posts} />
-		</div>
-	);
+  return (
+    <div className="App container">
+      <BrowserRouter>
+        <Routes>
+          <Route exact path="/" element={<Login />} />
+          <Route path='/blog' element={<PrivateRoute/>}>
+            <Route path='/blog' element={<Blog/>}/>
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </div>
+  );
 }
+
 export default App;

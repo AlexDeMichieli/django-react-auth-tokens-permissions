@@ -1,40 +1,39 @@
-version: '3.9'
+version: '2'
 
 services:
-  backend:
-    build: ./backend
-    command: gunicorn core.wsgi:application --bind 0.0.0.0:8000
-    volumes:
-      - static_volume:/home/app/backend/staticfiles
-    expose:
-      - 8000:8000
-    env_file:
-      - ./.env 
-    depends_on:
-      - db
-  # frontend:
-  #   build: ./client
-  #   volumes:
-  #     - react_build:/react/build
-  db:
-    image: postgres
-    volumes:
-      - postgres_data:/var/lib/postgresql/data/
-    environment:
-        POSTGRES_PASSWORD: postgres
+    nginx: 
+        restart: unless-stopped
+        build:
+            context: .
+            dockerfile: ./docker/nginx/Dockerfile
+        ports:
+            - 80:80
+        volumes:
+            - static_volume:/app/backend/server/django_static
+            - ./docker/nginx/development:/etc/nginx/conf.d
+        depends_on: 
+            - backend
+    backend:
+        restart: unless-stopped
+        build:
+            context: .
+            dockerfile: ./docker/backend/Dockerfile
+        env_file:
+            - ./.env 
+        entrypoint: /app/docker/backend/wsgi-entrypoint.sh
+        volumes:
+            - static_volume:/app/backend/server/django_static
+        expose:
+            - 8000
+        depends_on:
+            - db        
+    db:
+        image: postgres
+        volumes:
+        - postgres_data:/var/lib/postgresql/data/
+        environment:
+            POSTGRES_PASSWORD: postgres
   
-  nginx:
-    build: ./nginx
-    volumes:
-      - static_volume:/home/app/backend/staticfiles
-      # - react_build:/var/www/react
-    ports:
-      - 1337:80
-    depends_on:
-      - backend
-      # - frontend
-
 volumes:
-  postgres_data:
-  static_volume:
-  # react_build:
+    static_volume: 
+    postgres_data:
