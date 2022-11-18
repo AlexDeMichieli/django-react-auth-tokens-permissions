@@ -1,52 +1,40 @@
+version: '3.9'
 
-
-version: "3.9"
 services:
-  db:
-    restart: always
-    # image: 300486/postgres
-    image: postgres
-    environment:
-      - POSTGRES_DB=alexdemichieli
-      - POSTGRES_USER=alexdemichieli
-      - POSTGRES_PASSWORD=alex
-    networks:
-      - db-net
+  backend:
+    build: ./backend
+    command: gunicorn core.wsgi:application --bind 0.0.0.0:8000
     volumes:
-    - .db:/var/lib/postgresql/data/
-    
-  project:
-    restart: always
-    container_name: code
-    # image: 300486/backend
-    command : bash -c "python manage.py migrate &&
-                      python manage.py runserver 0.0.0.0:9000"
-    build:
-      context: ./server/
-      dockerfile: Dockerfile
-    ports:
-      - "9000:9000"
+      - static_volume:/home/app/backend/staticfiles
+    expose:
+      - 8000:8000
+    env_file:
+      - ./.env 
     depends_on:
       - db
-    networks:
-      - db-net
-
-  frontend:
-    restart: always
-    command : npm start
-    container_name: front
-    # image: 300486/frontend
-    build:
-      context: ./client/
-      dockerfile: Dockerfile
+  # frontend:
+  #   build: ./client
+  #   volumes:
+  #     - react_build:/react/build
+  db:
+    image: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+        POSTGRES_PASSWORD: postgres
+  
+  nginx:
+    build: ./nginx
+    volumes:
+      - static_volume:/home/app/backend/staticfiles
+      # - react_build:/var/www/react
     ports:
-      - "3000:3000"
-    stdin_open: true
+      - 1337:80
     depends_on:
-      - project
-    networks:
-      - db-net
+      - backend
+      # - frontend
 
-networks:
-  db-net:
-    driver: bridge
+volumes:
+  postgres_data:
+  static_volume:
+  # react_build:
