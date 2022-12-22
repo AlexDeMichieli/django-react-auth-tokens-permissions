@@ -1,4 +1,4 @@
-FROM python:3.8.3-alpine
+FROM --platform=linux/amd64 python:3.8.3-alpine
 
 WORKDIR /app
 ADD ./backend/requirements.txt /app/backend/
