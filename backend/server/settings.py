@@ -23,13 +23,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = "j+qxsyi2xv!6lkv-hn)c$qxeo+t#1r#)0s)o^yh)ds#k%%19tm"
 
-# 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-
-ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0']
-
+ALLOWED_HOSTS = ['0.0.0.0']
 
 # Application definition
 
@@ -43,6 +40,7 @@ INSTALLED_APPS = [
     # 
     'rest_framework',
     'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
     #
     'blog_app'
@@ -55,12 +53,6 @@ REST_FRAMEWORK = {
 
     ],
 }
-
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000"
-]
-CSRF_TRUSTED_ORIGINS=os.environ.get("CSRF_TRUSTED_ORIGINS").split(" ")
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -76,10 +68,10 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'server.urls'
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'ACCESS_TOKEN_LIFETIME': timedelta(seconds=5),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
     'ROTATE_REFRESH_TOKENS': True,
-    'BLACKLIST_AFTER_ROTATION': False,
+    'BLACKLIST_AFTER_ROTATION': True,
     'UPDATE_LAST_LOGIN': False,
 
     'ALGORITHM': 'HS256',
@@ -140,8 +132,6 @@ DATABASES = {
         "PORT": os.environ.get("PORT"),
     }
 }
-
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators

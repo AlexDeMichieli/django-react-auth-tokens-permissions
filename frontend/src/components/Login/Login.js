@@ -21,11 +21,11 @@ const Login = () => {
     };
     try {
       await axios.post("http://0.0.0.0/api/token/", data, headerConfig).then((res) => {
-        console.log(res.data)
         const token = {
           access_token: res.data.access,
           refresh_token: res.data.refresh
         }
+
         localStorage.setItem("token", JSON.stringify(token.access_token));
         localStorage.setItem("refreshToken", JSON.stringify(token.refresh_token));
         localStorage.setItem("isAuthenticated", true);

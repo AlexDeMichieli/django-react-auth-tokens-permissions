@@ -7,7 +7,6 @@ const setToken = ({ access, refresh }) => {
 };
 
 const getJWT = async () => {
-
   const refreshToken = JSON.parse(localStorage.getItem('refreshToken'));
   const decoded = jwt_decode(refreshToken);
   const expiration = decoded.exp

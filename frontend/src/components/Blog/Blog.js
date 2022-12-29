@@ -4,10 +4,10 @@ import PostEntry from "../PostEntry/PostEntry";
 import { useEffect, useState } from "react";
 import client from "../../utils/client";
 
+
 const Blog = () => {
 
   const [blogs, setBlogs] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [form, setForm] = useState([]);
   const [entry, setEntry] = useState([])
 
@@ -17,16 +17,7 @@ const Blog = () => {
   }, []);
 
   const getPosts = () => {
-    const token = JSON.parse(localStorage.getItem("token"));
-
-    const config = {
-      method: "get",
-      url: "api/viewall/",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
-    client(config)
+    client.get("/api/viewall/")
       .then((res) => {
         setBlogs(res.data);
       })
@@ -49,7 +40,6 @@ const Blog = () => {
     const postText = entry.text
     const postDate = entry.date
 
-    const token = JSON.parse(localStorage.getItem("token"));
     const data = JSON.stringify({
       "title": postTitle,
       "text": postText,
@@ -59,7 +49,6 @@ const Blog = () => {
       method: 'POST',
       url: `/api/create/`,
       headers: {
-        'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
       },
       data: data
@@ -74,7 +63,6 @@ const Blog = () => {
     const postTitle = form[`${id} title`] || title
     const postText = form[`${id} text`] || text
     const postDate = form[`${id} date`] || pub_date
-    const token = JSON.parse(localStorage.getItem("token"));
     const data = JSON.stringify({
       "title": postTitle,
       "text": postText,
@@ -84,7 +72,6 @@ const Blog = () => {
       method: 'PUT',
       url: `/api/edit/${id}`,
       headers: {
-        'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
       },
       data: data
@@ -94,17 +81,12 @@ const Blog = () => {
       .then(error => console.log(error))
   }
 
-  console.log(form)
-
   const deletePost = (e, { id }) => {
     const token = JSON.parse(localStorage.getItem("token"));
 
     const config = {
       method: "delete",
-      url: `/api/delete/${id}`,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      url: `api/delete/${id}`
     };
 
     client(config)
@@ -159,7 +141,7 @@ const Blog = () => {
                 Edit Post
               </button>
 
-              <button onClick={(e) => deletePost(e, post)} type="button" className="btn btn-danger">
+              <button onClick={(e) =>  deletePost(e, post)} type="button" className="btn btn-danger">
                 Delete Post
               </button>
             </div>

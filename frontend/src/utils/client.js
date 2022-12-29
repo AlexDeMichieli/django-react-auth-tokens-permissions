@@ -2,7 +2,7 @@ import axios from "axios";
 import getJWT from "./getJWT";
 
 const client = axios.create({
-  baseURL: "http://0.0.0.0/"
+  baseURL: "http://0.0.0.0"
 });
 
 const isHandlerEnabled = (config = {}) => {
@@ -15,7 +15,7 @@ const requestHandler = async (request) => {
   let token = await getJWT()
   let newAccessToken = token.access
   if (isHandlerEnabled(request)) {
-    request.headers["x-auth-token"] = newAccessToken;
+    request.headers["Authorization"] = `Bearer ${newAccessToken} `;
   }
   return request;
 };
