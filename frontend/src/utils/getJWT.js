@@ -13,7 +13,7 @@ const getJWT = async () => {
   if (expiration > Date.now() / 1000) {
 
     try {
-      const response = await axios.post(`http://0.0.0.0/api/token/refresh/`, { refresh: refreshToken })
+      const response = await axios.post(`${window.location.origin}/api/token/refresh/`, { refresh: refreshToken })
       const newTokens = response.data
       setToken(newTokens)
       return newTokens;

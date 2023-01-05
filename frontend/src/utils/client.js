@@ -2,7 +2,7 @@ import axios from "axios";
 import getJWT from "./getJWT";
 
 const client = axios.create({
-  baseURL: "http://0.0.0.0"
+  baseURL: window.location.origin
 });
 
 const isHandlerEnabled = (config = {}) => {

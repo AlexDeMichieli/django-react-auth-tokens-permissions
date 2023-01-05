@@ -20,7 +20,7 @@ const Login = () => {
       "password": password
     };
     try {
-      await axios.post("http://0.0.0.0/api/token/", data, headerConfig).then((res) => {
+      await axios.post(`${window.location.origin}/api/token/`, data, headerConfig).then((res) => {
         const token = {
           access_token: res.data.access,
           refresh_token: res.data.refresh
