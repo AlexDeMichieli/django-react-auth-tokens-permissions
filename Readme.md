@@ -2,6 +2,11 @@
 
 Welcome to the Blog App! This app is built with Django REST, React and Postgres. The app is Dockerized and ready for production, as requests are served by Gunicorn and Nginx.
 
+# Get Started
+
+run `docker-compose build` to build the backend and frontend images with docker compose
+run `docker-compose up` up to start the containers
+
 # Custom Permissions
 
 The app includes custom permissions to ensure that only users with the appropriate permissions can perform certain actions. These permissions are set in the Django admin panel. The app includes the following custom permissions:
