@@ -46,7 +46,7 @@ To view all blog posts, send a GET request to http://0.0.0.0/api/viewall/ with a
 
 ## Inspiration
 
-This app was inspired by the tutorial found at https://saasitive.com/tutorial/docker-compose-django-react-nginx-let-s-encrypt/.
+This app was inspired by the tutorial found at https://saasitive.com/tutorial/docker-compose-django-react-nginx-let-s-encrypt/. Another useful guide that teaches you the difference between Gunicorn and Nginx is the following: https://rahmonov.me/posts/run-a-django-app-with-nginx-gunicorn-and-supervisor/
 
 ## Deploy
 
