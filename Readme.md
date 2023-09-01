@@ -77,7 +77,7 @@ mkdir app
 ```
 4) Cd into the project folder on your local machine and run:
 ```bash
-rsync -avz -progress -e "ssh -i <path to pem>" . <azure vm address>:/home/<username>/app/
+rsync -avz -progress -e "ssh -i <path to pem>" --exclude ./node_modules . <azure vmaddress>:/home/<user>/app/
 ```
 5) run
 
